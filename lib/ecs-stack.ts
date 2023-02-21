@@ -23,14 +23,14 @@ export class Cluster extends cdk.Stack {
       vpc: vpc
     });
 
-    //new ecs_patterns.ApplicationLoadBalancedFargateService(this, "MyFargateService", {
-      //cluster: cluster, // Required
-      //cpu: 512, // Default is 256
-      //desiredCount: 1, // Default is 1
-      //taskImageOptions: { image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample") },
-      //memoryLimitMiB: 512, // Default is 512
-      //publicLoadBalancer: true // Default is true
-    //});
+    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "MyFargateService", {
+      cluster: cluster, // Required
+      cpu: 256, // Default is 256
+      desiredCount: 1, // Default is 1
+      taskImageOptions: { image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample") },
+      memoryLimitMiB: 512, // Default is 512
+      publicLoadBalancer: true // Default is true
+    });
 
   }
 }

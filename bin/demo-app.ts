@@ -22,9 +22,10 @@ const rdsStack = new RDS(app, 'rds-stack', {
   stackName: 'rds-stack'
 });
 
-//const cluster = new Cluster(app, 'Cluster', {
-//  // 👇 pass the VPC from the other stack
-//  vpc: vpcStack.vpc,
-//});
+const cluster = new Cluster(app, 'ecs-stack', {
+  // 👇 pass the VPC from the other stack
+  vpc: vpcStack.vpc,
+  stackName: 'ecs-stack'
+});
 
 
