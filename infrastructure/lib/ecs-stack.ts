@@ -40,11 +40,12 @@ export class Cluster extends cdk.Stack {
     // Role that can restart ECS
 
     // https://docs.aws.amazon.com/cdk/api/v1/docs/aws-lambda-readme.html
-    const dopplerReload = new lambda.Function(this, 'DopplerReload', {
+    const webhookReload = new lambda.Function(this, 'WebhookReload', {
       runtime: lambda.Runtime.RUBY_2_7,
       // handler needs to be filename then method to call
-      handler: 'doppler_webhook.lambda_handler',
-      code: lambda.Code.fromAsset('lambda/doppler'),
+      // filename.method_to_call
+      handler: 'webhook.lambda_handler',
+      code: lambda.Code.fromAsset('lambda/webhook'),
       timeout: cdk.Duration.seconds(500)
     });
 

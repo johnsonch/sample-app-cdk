@@ -18,8 +18,6 @@ def main
 end
 
 def lambda_handler(event:, context:)
-  doppler = "doppler: #{event['headers']['x-doppler-signature']}"
-  cluster = "cluster: #{event['queryStringParameters']['cluster']}"
-  # main
+  main
   { statusCode: 200, body: JSON.generate("Success: #{doppler} / #{cluster}") }
 end
