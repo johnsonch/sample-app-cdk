@@ -32,6 +32,39 @@ export class VPCStack extends cdk.Stack {
       }
     );
 
+    // VPC Endpoints allow traffic from our private subnets to not traverse the entire
+    // internet in order to access AWS resources, this is designed to limit the amount
+    // of bandwidth the inernet/NAT gateway consumes.
+    // The addInterfaceEndpoint method appears in the docs to default to private subnets,
+    // however it's not obvious how to explicitly set that.
+
+    const endpointSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'EndPointSecurityGroup',
+      {
+        vpc: this.vpc,
+        allowAllOutbound: false,
+        securityGroupName: `vpc-endpoint-sg`,
+      }
+    );
+
+    this.vpc.addGatewayEndpoint('S3Endpoint', {
+      service: ec2.GatewayVpcEndpointAwsService.S3,
+      subnets: [
+       { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }
+      ]
+    });
+
+    this.vpc.addInterfaceEndpoint('EcrDockerEndpoint', {
+      service: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
+      securityGroups: [ endpointSecurityGroup ]
+    });
+
+    this.vpc.addInterfaceEndpoint('RDSEndpoint', {
+      service: ec2.InterfaceVpcEndpointAwsService.RDS,
+      securityGroups: [ endpointSecurityGroup ]
+    });
+
 
   }
 }

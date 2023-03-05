@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { VPCStack } from '../lib/vpc-stack';
 import { Cluster } from '../lib/ecs-stack';
+import { Server } from '../lib/ec2-stack';
 import { ECR } from '../lib/ecr-stack';
 import { RDS } from '../lib/rds-stack';
 
@@ -28,4 +29,8 @@ const cluster = new Cluster(app, 'ecs-stack', {
   stackName: 'ecs-stack'
 });
 
-
+const server = new Server(app, 'ec2-stack', {
+  // 👇 pass the VPC from the other stack
+  vpc: vpcStack.vpc,
+  stackName: 'ec2-stack'
+});
